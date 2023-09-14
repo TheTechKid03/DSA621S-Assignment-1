@@ -1,4 +1,5 @@
 # DSA621S-Assignment-1
-For the dsa project
+For the DSA621S Group Project
 
-Hilma Iita
+Hilma Iita,
+Michael Tashiya Amutenya
