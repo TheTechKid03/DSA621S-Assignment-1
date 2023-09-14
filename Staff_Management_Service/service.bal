@@ -1,26 +1,41 @@
+//Ballerina packages that are imported
 import ballerina/http;
 
 
+//Information about the Course
 public type Course_Details record {
-    readonly int Course_code;
+    readonly string Course_code;
     string Course_name;
     string NQF_level;
 };
 
+//Information of the Lecturer
+public type Lecturers record {
+    readonly string Staff_number;
+    Title Title;
+    string Name;
+    int Age;
+    Sex Gender;
+    Faculty Faculty;
+    string Office_number;
+    Courses_taught Courses_taught;
+    string Email;
+};
+
+
+//Enums are used to store the data that is already known
 enum Courses_taught{
-    Comp,
-    engine,
-    space,
-    drinking
+    Software_Development,
+    System_Administration,
+    Cyber_Security,
+    Communication_Networks
 }
-
 enum Sex{
-
 Male,
-Female
+Female,
+Other
 
 }
-
 enum Title{
 
 Ms,
@@ -28,27 +43,17 @@ Mr,
 Mrs
 
 };
+enum Faculty{
+
+Faculty_of_Computing_and_Informatics
+
+}
 
 
-public type Lecturers record {
-    readonly string Staff_number;
-    string Staff_name;
-    Title Title;
-    string Office_number;
-    Courses_taught Courses_taught;
-    string Email;
-    Sex gender;
-};
+table<Course_Details> key(Course_code) CourseTable = table [ ];
 
 
-public final table<Course_Details> key(Course_code) CourseTable = table [
-
-];
-
-
-public final table<Lecturers> key(Staff_number) LectureTable = table [
-
-];
+table<Lecturers> key(Staff_number) LectureTable = table [ ];
 
 
 # A service representing a network-accessible API
@@ -64,7 +69,7 @@ service /Faculty_of_Computing_and_Informatics on new http:Listener(9090) {
 
     }else{
 
-        return  newLecturer.Staff_name + "saved succesfully" ;
+        return  newLecturer.Name + "saved succesfully" ;
 
     }
 
