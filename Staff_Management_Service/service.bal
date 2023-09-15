@@ -68,6 +68,9 @@ service /Faculty_of_Computing_and_Informatics on new http:Listener(9090) {
     resource function get allLectureres() returns Lecturers[] {
         return LectureTable.toArray();
      }
+
+
+     
 }
         
 
