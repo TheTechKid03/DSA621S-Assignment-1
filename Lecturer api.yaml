@@ -1,0 +1,141 @@
+openapi: "3.0.1"
+
+info:
+  title: Faculty of computing and informatics API
+  version: "0.0.1"
+
+servers:
+  - url: http://localhost:9000/vle/api/v1
+
+
+paths:
+  /users:
+    get:
+      summary: Get all Lecturers added to the application
+      operationId: get_all
+      description: Returns all Lecturers registered for the application
+      responses:
+        '200':
+          description: "A list of Lecturers"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Lecturers"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+    post:
+      summary: Insert a new Lecturer
+      operationId: insert
+      description: Create a new user and add it to the collection of Lecturers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: User successfully created
+          content:
+            application/json:
+              schema:
+                properties:
+                  userid:
+                    type: string
+                    description: the username of the Lecturer newly created
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+
+
+  /users/{Staff number}:
+    parameters:
+      - name: Staff number
+        in: path
+        description: Staff number of the user
+        schema:
+          type: int
+        required: true
+    get:
+      summary: Get a single upser
+      operationId: get_user
+      description: Returns a single user based on the Staff number
+      responses:
+        '200':
+          description: user response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+    put:
+      summary: Update an existing Lecturer
+      operationId: update_Lecturer
+      description: updates an existing Lecturer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Lecturer"
+      responses:
+        '200':
+          description: 'User was successfully updated'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+    delete:
+      summary: Delete an existing Lecturer
+      operationId: delete_Lecturer
+      description: deletes an existing Lecturer
+      responses:
+        '204':
+          description: User was successfully deleted
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+
+components:
+  schemas:
+    User:
+      title: User Description
+      type: object
+      properties:
+        Staff number:
+          type: int
+          description: the Staff number of the Lecturer
+        office number:
+          type: string
+          description: the office number of the Lecturer
+        Staff name:
+          type: string
+          description: the Staff name of the Lecturer
+        title:
+          type: string
+          description: the title  of the lecturer
+          Courses:
+          type: string
+          description: the courses of the Lecturer
+    Error:
+      type: object
+      properties:
+        errorType:
+          type: string
+          enum:
+            - BadRequest
+
+            - Not Found
+
+            - InternalServerError
+        message:
+          type: string
+
+  responses:
+    ErrorResponse:
+      description: Error handling user
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
