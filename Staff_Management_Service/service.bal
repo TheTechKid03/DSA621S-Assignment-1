@@ -64,7 +64,6 @@ Courses_taught: "Communication_Networks", Email: "stjitaro@nust.na"}
 # bound to port `9090`.
 service /Faculty_of_Computing_and_Informatics on new http:Listener(9090) {
 
-
     //Add a new Lecturer - POST
     resource function post newLecturer(Lecturers newLecturer) returns string {
         error? AddNewLecturer = LectureTable.add(newLecturer);
