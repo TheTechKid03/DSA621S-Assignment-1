@@ -77,25 +77,6 @@ service /Faculty_of_Computing_and_Informatics on new http:Listener(9090) {
 
         return  newLecturer.Name + "saved succesfully" ;
     }
-    }
-
-    //Retrieve a list of all lecturers within the faculty - GET
-    resource function get allLectureres() returns Lecturers[] {
-        return LectureTable.toArray();
-     }
-
-  //Update an existing Lecturers information - PUT
-   resource function put updateLecturer(Lecturers updateLecturer) returns string {
-        error? updatedLecturer = LectureTable.put(updateLecturer);
-
-    if (updatedLecturer is error){
-
-        return "Testing" + updatedLecturer.message();
-
-    }else{
-
-        return  updateLecturer.Name + "updated succesfully" ;
-    }
   }
 }
         
