@@ -1,141 +1,206 @@
-openapi: "3.0.1"
-
+openapi: 3.0.1
 info:
-  title: Faculty of computing and informatics API
-  version: "0.0.1"
-
+  title: Faculty Of Computing And Informatics
+  version: 5.4.0
 servers:
-  - url: http://localhost:9000/vle/api/v1
-
-
+- url: "{server}:{port}/Faculty_of_Computing_and_Informatics"
+  variables:
+    server:
+      default: http://localhost
+    port:
+      default: "8080"
 paths:
-  /users:
-    get:
-      summary: Get all Lecturers added to the application
-      operationId: get_all
-      description: Returns all Lecturers registered for the application
+  /addCourse:
+    post:
+      operationId: postAddcourse
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Course'
       responses:
-        '200':
-          description: "A list of Lecturers"
+        "201":
+          description: Created
+          content:
+            text/plain:
+              schema:
+                type: string
+  /addLecturer:
+    post:
+      operationId: postAddlecturer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lecturers'
+      responses:
+        "201":
+          description: Created
+          content:
+            text/plain:
+              schema:
+                type: string
+  /getAllCourses:
+    get:
+      operationId: getGetallcourses
+      responses:
+        "200":
+          description: Ok
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Lecturers"
-        default:
-          $ref: "#/components/responses/ErrorResponse"
-    post:
-      summary: Insert a new Lecturer
-      operationId: insert
-      description: Create a new user and add it to the collection of Lecturers
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/User'
-      responses:
-        '201':
-          description: User successfully created
-          content:
-            application/json:
-              schema:
-                properties:
-                  userid:
-                    type: string
-                    description: the username of the Lecturer newly created
-        default:
-          $ref: "#/components/responses/ErrorResponse"
-
-
-  /users/{Staff number}:
-    parameters:
-      - name: Staff number
-        in: path
-        description: Staff number of the user
-        schema:
-          type: int
-        required: true
+                  $ref: '#/components/schemas/Course'
+  /getAllLecturers:
     get:
-      summary: Get a single upser
-      operationId: get_user
-      description: Returns a single user based on the Staff number
+      operationId: getGetalllecturers
       responses:
-        '200':
-          description: user response
+        "200":
+          description: Ok
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-        default:
-          $ref: "#/components/responses/ErrorResponse"
+                type: array
+                items:
+                  $ref: '#/components/schemas/Lecturers'
+  /updateCourse:
     put:
-      summary: Update an existing Lecturer
-      operationId: update_Lecturer
-      description: updates an existing Lecturer
+      operationId: putUpdatecourse
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Lecturer"
+              $ref: '#/components/schemas/Course'
       responses:
-        '200':
-          description: 'User was successfully updated'
+        "200":
+          description: Ok
+          content:
+            text/plain:
+              schema:
+                type: string
+  /updateLecturer:
+    put:
+      operationId: putUpdatelecturer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lecturers'
+      responses:
+        "200":
+          description: Ok
+          content:
+            text/plain:
+              schema:
+                type: string
+  /getCoursebyCoursecode:
+    get:
+      operationId: getGetcoursebycoursecode
+      parameters:
+      - name: Course_code
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Ok
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/User"
-        default:
-          $ref: "#/components/responses/ErrorResponse"
-    delete:
-      summary: Delete an existing Lecturer
-      operationId: delete_Lecturer
-      description: deletes an existing Lecturer
+                $ref: '#/components/schemas/Course'
+            text/plain:
+              schema:
+                type: string
+  /getLecturerbyStaffnumber:
+    get:
+      operationId: getGetlecturerbystaffnumber
+      parameters:
+      - name: Staff_number
+        in: query
+        required: true
+        schema:
+          type: string
       responses:
-        '204':
-          description: User was successfully deleted
-        default:
-          $ref: "#/components/responses/ErrorResponse"
-
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lecturers'
+            text/plain:
+              schema:
+                type: string
+  /deleteCourse:
+    delete:
+      operationId: deleteDeletecourse
+      responses:
+        "200":
+          description: Ok
+          content:
+            text/plain:
+              schema:
+                type: string
+  /deleteLecturer:
+    delete:
+      operationId: deleteDeletelecturer
+      responses:
+        "200":
+          description: Ok
+          content:
+            text/plain:
+              schema:
+                type: string
 components:
   schemas:
-    User:
-      title: User Description
+    Lecturers:
+      required:
+      - Age
+      - Email
+      - First_course
+      - Gender
+      - Name
+      - Office_number
+      - Second_course
+      - Staff_number
+      - Surname
+      - Third_course
+      - Title
       type: object
       properties:
-        Staff number:
-          type: int
-          description: the Staff number of the Lecturer
-        office number:
+        Staff_number:
           type: string
-          description: the office number of the Lecturer
-        Staff name:
+        Title:
           type: string
-          description: the Staff name of the Lecturer
-        title:
+        Name:
           type: string
-          description: the title  of the lecturer
-          Courses:
+        Surname:
           type: string
-          description: the courses of the Lecturer
-    Error:
+        Age:
+          type: string
+        Gender:
+          type: string
+        Office_number:
+          type: string
+        First_course:
+          type: string
+        Second_course:
+          type: string
+        Third_course:
+          type: string
+        Email:
+          type: string
+    Course:
+      required:
+      - Course_code
+      - NQF_level
+      - Name
       type: object
       properties:
-        errorType:
+        Course_code:
           type: string
-          enum:
-            - BadRequest
-
-            - Not Found
-
-            - InternalServerError
-        message:
+        Name:
           type: string
-
-  responses:
-    ErrorResponse:
-      description: Error handling user
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/Error"
+        NQF_level:
+          type: string
